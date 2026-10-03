@@ -1,0 +1,58 @@
+rules_version = '2';
+
+/**
+ * ============================================================================
+ * WOO PASS — Zero-Trust Cloud Firestore Security Rules (firebase/firestore.rules)
+ * Strict per-user UID isolation, least-privilege access, and default-deny.
+ * ============================================================================
+ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: Is the user authenticated?
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper: Is the user accessing their own isolated data partition?
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 1. Vault metadata & wrapped encryption keys (Strict owner isolation)
+    match /vaults/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // 2. Zero-Trust AES-256-GCM Encrypted Vault Items (Strict owner isolation)
+    match /vaultItems/{userId}/items/{itemId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // 3. User account profile (Strict owner isolation)
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      
+      // Explicitly block legacy plaintext subcollections
+      match /passwords/{docId} {
+        allow read, write: if false;
+      }
+      match /notes/{docId} {
+        allow read, write: if false;
+      }
+    }
+
+    // 4. Security Audit Logs (Append-only by owner, immutable, no cross-user reads)
+    match /security_events/{eventId} {
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // 5. Default Deny: block all unmatched collections & documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

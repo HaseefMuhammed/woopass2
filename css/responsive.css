@@ -1,0 +1,114 @@
+/* ==========================================================================
+   WOO PASS — Responsive Layouts & Device Optimizations
+   ========================================================================== */
+
+/* Mobile Phones (Portrait < 576px) */
+@media (max-width: 575.98px) {
+  .vault-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .brand-title {
+    font-size: 1.4rem;
+  }
+
+  .brand-logo-img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .keypad-grid {
+    gap: 8px;
+    max-width: 290px;
+  }
+
+  .keypad-btn {
+    max-height: 62px;
+    font-size: 1.35rem;
+    border-radius: 10px;
+  }
+
+  .pin-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .pin-display-container {
+    gap: 10px;
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .dashboard-topbar {
+    padding: 1rem 1.25rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .vault-toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .vault-toast {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Tablets (576px to 991.98px) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .vault-card {
+    padding: 2.25rem 2rem;
+  }
+
+  .keypad-grid {
+    max-width: 320px;
+    gap: 12px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop Large (>= 992px) */
+@media (min-width: 992px) {
+  .auth-wrapper {
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  .dashboard-container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+}
+
+/* Touch Device Ergonomics */
+@media (hover: none) and (pointer: coarse) {
+  .keypad-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-vault-primary,
+  .btn-vault-secondary,
+  .choice-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Safe Area Insets for Modern Mobile Notches */
+@supports (padding: env(safe-area-inset-top)) {
+  .dashboard-topbar {
+    padding-top: calc(1rem + env(safe-area-inset-top));
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WOO PASS — Private Family Vault</title>
+  <meta name="description" content="Your family's private digital vault. Secure password and asset management.">
+  
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Local Bootstrap 5 CSS & Icons (Fully Offline & PWA Capable) -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- Progressive Web App (PWA) Manifest & Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WooPass">
+
+  <!-- Platform Security Guard (Anti-Inspection, DevTools Blocking, Screen Protection) -->
+  <script src="js/security-guard.js"></script>
+</head>
+<body>
+
+  <!-- Full Web App Loading Screen (Dismisses when fully downloaded) -->
+  <div id="vault-preloader" class="vault-preloader" aria-label="Loading Vault">
+    <div class="preloader-content">
+      <div class="preloader-logo-wrap">
+        <div class="preloader-pulse-ring"></div>
+        <div class="preloader-pulse-ring delay"></div>
+        <img src="logo.png" alt="WooPass Logo" class="preloader-logo-img">
+      </div>
+      <div class="preloader-brand-title">WOO PASS</div>
+      <div class="preloader-tagline">Private Family Vault</div>
+      <div class="preloader-bar-wrap">
+        <div class="preloader-bar-fill"></div>
+      </div>
+      <div class="preloader-status">
+        <span class="spinner-border spinner-border-sm text-primary me-2" role="status" aria-hidden="true"></span>
+        <span id="preloader-status-text">Loading secure vault...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Atmospheric Background -->
+  <div class="ambient-glow"></div>
+
+  <!-- Main Root Container -->
+  <div id="app-root">
+
+    <!-- ====================================================================
+         VIEW 1: FAMILY GATE (Initial Security Screen)
+         ==================================================================== -->
+    <section id="view-gate" class="view-section active">
+      <div class="container my-auto py-4">
+        <div class="auth-wrapper">
+          <div class="vault-card text-center">
+            
+            <div class="brand-header">
+              <img src="assets/logo.png" alt="Woo Pass Logo" class="brand-logo-img mb-2" onerror="this.src='logo.png'">
+              <h1 class="brand-title">WOO PASS</h1>
+              <p class="brand-tagline">Private Family Vault</p>
+            </div>
+
+            <div class="mt-2 mb-3">
+              <span class="form-label-custom">Enter Home Security Passcode</span>
+            </div>
+
+            <!-- Lockout Banner -->
+            <div id="gate-lockout-banner" class="lockout-banner"></div>
+
+            <!-- PIN Dot Indicators -->
+            <div id="gate-pin-dots" class="pin-display-container">
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-1">
+              <button id="btn-shuffle-gate" class="btn btn-sm btn-link text-secondary text-decoration-none p-0" style="font-size: 0.775rem;" type="button" title="Scramble keypad layout">
+                <i class="bi bi-shuffle text-info me-1"></i> Shuffle Keypad
+              </button>
+            </div>
+
+            <!-- Clean Keypad Target (1-9, 0) -->
+            <div id="gate-keypad-container" class="keypad-grid mb-3"></div>
+
+            <p class="text-secondary mb-0" style="font-size: 0.8rem;">
+              <i class="bi bi-shield-lock me-1"></i> Protected Family Storage
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: WELCOME LANDING (Choice Screen)
+         ==================================================================== -->
+    <section id="view-landing" class="view-section">
+      <div class="container my-auto py-5">
+        <div class="auth-wrapper" style="max-width: 500px;">
+          <div class="vault-card">
+            
+            <div class="brand-header text-center mb-4">
+              <img src="assets/logo.png" alt="Woo Pass Logo" class="brand-logo-img mb-2" onerror="this.src='logo.png'">
+              <h2 class="brand-title">Welcome to Woo Pass</h2>
+              <p class="brand-tagline">Your private family digital vault</p>
+            </div>
+
+            <div class="d-flex flex-column gap-3 my-4">
+              <!-- Choice 1: Create Account -->
+              <a href="#" id="btn-choice-register" class="choice-card">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="choice-icon">
+                      <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <div>
+                      <h3 class="h6 mb-1 text-white fw-bold">Create Account</h3>
+                      <p class="mb-0 text-secondary" style="font-size: 0.825rem;">Set up a new family member vault</p>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </a>
+
+              <!-- Choice 2: Login -->
+              <a href="#" id="btn-choice-login" class="choice-card">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="choice-icon">
+                      <i class="bi bi-box-arrow-in-right"></i>
+                    </div>
+                    <div>
+                      <h3 class="h6 mb-1 text-white fw-bold">Login to Account</h3>
+                      <p class="mb-0 text-secondary" style="font-size: 0.825rem;">Access your stored passwords & notes</p>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </a>
+            </div>
+
+            <div class="text-center pt-2">
+              <button id="btn-landing-to-gate" class="btn-vault-ghost">
+                <i class="bi bi-lock-fill me-1"></i> Lock Gate
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: CREATE ACCOUNT
+         ==================================================================== -->
+    <section id="view-register" class="view-section">
+      <div class="container my-auto py-4">
+        <div class="auth-wrapper" style="max-width: 500px;">
+          <div class="vault-card">
+            
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <button id="btn-register-back" class="btn-vault-ghost px-0">
+                <i class="bi bi-arrow-left me-1"></i> Back
+              </button>
+              <span class="badge bg-dark border border-secondary text-secondary" style="font-size: 0.75rem;">New Member</span>
+            </div>
+
+            <div class="brand-header text-start mb-3">
+              <h2 class="h4 text-white fw-bold mb-1">Create Account</h2>
+              <p class="text-secondary mb-0" style="font-size: 0.875rem;">Set up your private vault profile</p>
+            </div>
+
+            <!-- Profile Picture Upload in Registration -->
+            <div class="avatar-upload-container">
+              <div class="avatar-upload-wrap" id="reg-avatar-preview-wrap" title="Click to upload profile picture">
+                <img id="reg-avatar-preview-img" src="" alt="Avatar" class="d-none">
+                <div id="reg-avatar-icon"><i class="bi bi-camera-fill text-muted fs-4"></i></div>
+                <div class="upload-hint">Photo</div>
+              </div>
+              <input type="file" id="reg-avatar-file" accept="image/*" class="d-none">
+              <span class="avatar-upload-label" id="reg-avatar-btn-text"><i class="bi bi-upload me-1"></i> Add Profile Picture</span>
+            </div>
+
+            <form id="form-register" novalidate>
+              <!-- Full Name -->
+              <div class="input-custom-group">
+                <label for="reg-name" class="form-label-custom">Full Name *</label>
+                <input type="text" id="reg-name" class="input-custom" placeholder="e.g. Eleanor Vance" required maxlength="60" autocomplete="name">
+                <div id="reg-name-feedback" class="input-feedback"></div>
+              </div>
+
+              <!-- Email -->
+              <div class="input-custom-group">
+                <label for="reg-email" class="form-label-custom">Email Address *</label>
+                <input type="email" id="reg-email" class="input-custom" placeholder="name@domain.com" required autocomplete="email">
+                <div id="reg-email-feedback" class="input-feedback"></div>
+              </div>
+
+              <!-- 6-digit PIN -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <div class="input-custom-group mb-0">
+                    <label for="reg-pin" class="form-label-custom">6-Digit PIN *</label>
+                    <input type="password" id="reg-pin" class="input-custom text-center text-mono" placeholder="••••••" maxlength="6" inputmode="numeric" required pattern="\d{6}">
+                    <div id="reg-pin-feedback" class="input-feedback"></div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-custom-group mb-0">
+                    <label for="reg-confirm-pin" class="form-label-custom">Confirm PIN *</label>
+                    <input type="password" id="reg-confirm-pin" class="input-custom text-center text-mono" placeholder="••••••" maxlength="6" inputmode="numeric" required pattern="\d{6}">
+                    <div id="reg-confirm-feedback" class="input-feedback"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone (Optional) -->
+              <div class="input-custom-group">
+                <label for="reg-phone" class="form-label-custom">Phone Number (Optional)</label>
+                <input type="tel" id="reg-phone" class="input-custom" placeholder="+1 (555) 000-0000" autocomplete="tel">
+                <div id="reg-phone-feedback" class="input-feedback"></div>
+              </div>
+
+              <!-- Connected Cloud / Storage / App Link (REQUIRED) -->
+              <div class="input-custom-group">
+                <label for="reg-drive-url" class="form-label-custom">Connected Link (Google Drive, Apps Script, etc.) * <span class="text-secondary fw-normal">(Required)</span></label>
+                <input type="url" id="reg-drive-url" class="input-custom" placeholder="https://drive.google.com/... or https://script.google.com/..." required>
+                <div id="reg-drive-feedback" class="input-feedback"></div>
+                <small class="text-muted" style="font-size: 0.75rem;">Your document storage folder, Apps Script portal, or cloud link</small>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="mt-4">
+                <button type="submit" id="btn-submit-register" class="btn-vault-primary">
+                  <span id="btn-reg-text"><i class="bi bi-shield-fill-check me-1"></i> Create Account</span>
+                  <span id="btn-reg-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: LOGIN
+         ==================================================================== -->
+    <section id="view-login" class="view-section">
+      <div class="container my-auto py-4">
+        <div class="auth-wrapper">
+          <div class="vault-card text-center">
+            
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <button id="btn-login-back" class="btn-vault-ghost px-0">
+                <i class="bi bi-arrow-left me-1"></i> Back
+              </button>
+              <img src="assets/icon.png" alt="Woo Pass Icon" style="width: 24px; height: 24px;" onerror="this.src='logo.png'">
+            </div>
+
+            <div class="brand-header mb-3">
+              <h2 class="brand-title">WOO PASS</h2>
+              <p class="brand-tagline">Welcome back</p>
+            </div>
+
+            <!-- Email Input -->
+            <div class="input-custom-group text-start mb-3">
+              <label for="login-email" class="form-label-custom">Registered Email</label>
+              <input type="email" id="login-email" class="input-custom" placeholder="name@domain.com" autocomplete="email" required>
+            </div>
+
+            <div class="mt-3 mb-2">
+              <span class="form-label-custom">Enter your 6-digit PIN</span>
+            </div>
+
+            <!-- Lockout Banner -->
+            <div id="login-lockout-banner" class="lockout-banner"></div>
+
+            <!-- PIN Dot Indicators -->
+            <div id="login-pin-dots" class="pin-display-container">
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-1">
+              <button id="btn-shuffle-login" class="btn btn-sm btn-link text-secondary text-decoration-none p-0" style="font-size: 0.775rem;" type="button" title="Scramble keypad layout">
+                <i class="bi bi-shuffle text-info me-1"></i> Shuffle Keypad
+              </button>
+            </div>
+
+            <!-- Standard Keypad Target (1-9, 0) -->
+            <div id="login-keypad-container" class="keypad-grid mb-3"></div>
+
+            <div class="text-center mt-3">
+              <button id="btn-login-to-landing" class="btn-vault-ghost" style="font-size: 0.8125rem;">
+                Need an account? Switch to Register
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: DASHBOARD (Clean, Minimal, User-Friendly)
+         ==================================================================== -->
+    <section id="view-dashboard" class="view-section">
+      
+      <!-- Top Navigation Bar -->
+      <nav class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-2">
+          <img src="assets/icon.png" alt="Woo Pass Icon" style="width: 28px; height: 28px;" onerror="this.src='logo.png'">
+          <span class="fw-bold tracking-wider text-white" style="letter-spacing: 0.1em;">WOO PASS</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 gap-sm-3">
+          <!-- User Profile info with Avatar Image -->
+          <div class="dashboard-user-badge d-flex align-items-center gap-2" id="dash-user-badge-wrap" style="cursor: pointer;" title="Open Settings & Profile">
+            <div class="position-relative" id="dash-avatar-trigger" title="Open Settings & Profile">
+              <img id="dash-user-avatar-img" class="user-avatar-img d-none" alt="Profile Picture">
+              <div id="dash-user-avatar" class="user-avatar">U</div>
+            </div>
+            <div class="text-start d-none d-sm-block">
+              <div id="dash-user-name" class="fw-semibold text-white truncate" style="max-width: 140px; font-size: 0.85rem;">User</div>
+              <div id="dash-user-email" class="text-muted truncate" style="max-width: 160px; font-size: 0.75rem;">user@example.com</div>
+            </div>
+          </div>
+
+          <!-- Dedicated Settings Button -->
+          <button id="btn-dash-settings" class="btn btn-sm btn-vault-settings d-flex align-items-center gap-1" title="App & Account Settings">
+            <i class="bi bi-gear-fill text-warning"></i>
+            <span class="d-none d-sm-inline">Settings</span>
+          </button>
+
+          <!-- Quick Actions -->
+          <button id="btn-dash-lock" class="btn btn-sm btn-outline-light border-secondary" title="Lock Vault immediately">
+            <i class="bi bi-lock-fill me-1"></i> Lock
+          </button>
+          <button id="btn-dash-logout" class="btn btn-sm btn-outline-danger" title="Logout completely">
+            <i class="bi bi-box-arrow-right me-1"></i> Logout
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main Dashboard Content -->
+      <div class="container dashboard-container py-4">
+        
+        <!-- Password Changed Security Notification (visible for 24h after change, then gone) -->
+        <div id="dash-pwd-notification-banner" class="alert alert-info border-0 shadow-sm dash-pwd-notification d-none mb-4" role="alert">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; flex-shrink: 0;">
+                <i class="bi bi-shield-check fs-5"></i>
+              </div>
+              <div>
+                <div class="fw-bold text-white" style="font-size: 0.95rem;">
+                  Security Notification: Password Changed
+                </div>
+                <div class="text-light" style="font-size: 0.85rem;" id="dash-pwd-notification-msg">
+                  Your account password was changed <span id="dash-pwd-changed-time" class="fw-semibold text-info">just now</span>.
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge rounded-pill text-bg-primary px-3 py-1" style="font-size: 0.75rem; background-color: rgba(56, 189, 248, 0.2) !important; color: #38bdf8 !important; border: 1px solid rgba(56, 189, 248, 0.3);">
+                <i class="bi bi-clock-history me-1"></i> 24h Notice
+              </span>
+              <button type="button" class="btn-close btn-close-white ms-1" id="btn-dismiss-pwd-notice" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Hero Banner -->
+        <div class="vault-card mb-4">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+              <h2 class="h4 fw-bold text-white mb-1" id="dash-welcome-text">Your Private Family Vault</h2>
+              <p class="text-secondary mb-0" style="font-size: 0.875rem;">
+                Store your passwords, keep important notes, view your digital healthcard, and access your Google Drive documents.
+              </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <button id="btn-quick-add-password" class="btn btn-sm btn-vault-primary w-auto">
+                <i class="bi bi-plus-circle me-1"></i> Create Password
+              </button>
+              <button id="btn-quick-add-note" class="btn btn-sm btn-vault-secondary w-auto">
+                <i class="bi bi-journal-plus me-1"></i> Save Note
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Primary Navigation / Feature Cards (Requirement 7) -->
+        <div class="dash-feature-cards">
+          <!-- Card 1: Passwords -->
+          <div class="dash-feature-card card-passwords active" id="feat-card-passwords">
+            <div>
+              <div class="feature-card-icon"><i class="bi bi-key-fill"></i></div>
+              <div class="feature-card-title">Stored Passwords</div>
+              <div class="feature-card-desc">Store, view & search private account passwords</div>
+            </div>
+            <div class="feature-card-footer">
+              <span class="text-white fw-bold"><span id="stat-passwords-count">0</span> Passwords</span>
+              <span class="text-indigo" style="color: #818cf8; font-weight: 600;">Open Passwords →</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Important Notes -->
+          <div class="dash-feature-card card-notes" id="feat-card-notes">
+            <div>
+              <div class="feature-card-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+              <div class="feature-card-title">Important Notes</div>
+              <div class="feature-card-desc">Save confidential notes, recovery keys & details</div>
+            </div>
+            <div class="feature-card-footer">
+              <span class="text-white fw-bold"><span id="stat-notes-count">0</span> Notes</span>
+              <span class="text-warning" style="color: #facc15; font-weight: 600;">Open Notes →</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Healthcard (Iframe Zoe Health Plus) -->
+          <div class="dash-feature-card card-healthcard" id="feat-card-healthcard">
+            <div>
+              <div class="feature-card-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+              <div class="feature-card-title">Healthcard</div>
+              <div class="feature-card-desc">Zoe Health Plus live digital card</div>
+            </div>
+            <div class="feature-card-footer">
+              <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50">Active</span>
+              <span class="text-danger" style="color: #f87171; font-weight: 600;">View Card →</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Manage Documents & Links (Direct Link redirect!) -->
+          <div class="dash-feature-card card-documents" id="feat-card-documents" title="Click to open your connected link (Google Drive, Apps Script, etc.)">
+            <div>
+              <div class="feature-card-icon"><i class="bi bi-box-arrow-up-right"></i></div>
+              <div class="feature-card-title">Manage Documents & Links</div>
+              <div class="feature-card-desc">Click to directly open your connected Google Drive or Apps Script portal</div>
+            </div>
+            <div class="feature-card-footer">
+              <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50">Cloud Link</span>
+              <span class="text-info" style="color: #38bdf8; font-weight: 600;">Open Link <i class="bi bi-box-arrow-up-right ms-1"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs Bar -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+          <div class="vault-nav-pills mb-0">
+            <button class="nav-pill-btn active" data-category="passwords" id="pill-tab-passwords">
+              <i class="bi bi-key-fill"></i> Passwords (<span id="pill-passwords-count">0</span>)
+            </button>
+            <button class="nav-pill-btn" data-category="notes" id="pill-tab-notes">
+              <i class="bi bi-journal-bookmark-fill"></i> Important Notes (<span id="pill-notes-count">0</span>)
+            </button>
+            <button class="nav-pill-btn" data-category="healthcard" id="pill-tab-healthcard">
+              <i class="bi bi-heart-pulse-fill"></i> Healthcard
+            </button>
+            <button class="nav-pill-btn" data-category="documents" id="pill-tab-documents">
+              <i class="bi bi-link-45deg"></i> Manage Documents <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.75rem;"></i>
+            </button>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="btn-tab-action-add" class="btn btn-sm btn-vault-primary w-auto">
+              <i class="bi bi-plus-circle me-1"></i> <span id="btn-tab-action-label">Add Password</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Search Bar (for Passwords and Notes) -->
+        <div class="vault-search-container" id="vault-search-box">
+          <i class="bi bi-search vault-search-icon"></i>
+          <input type="text" id="vault-search-input" class="vault-search-input" placeholder="Search saved passwords by website, name, or username..." autocomplete="off">
+          <button id="btn-clear-search" class="vault-search-clear d-none" title="Clear search">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
+
+        <!-- Section 1: Vault Items Container (Passwords / Notes) -->
+        <div id="vault-items-container">
+          <div class="vault-records-grid" id="vault-records-grid"></div>
+        </div>
+
+        <!-- Section 2: Healthcard Iframe Section (Requirement 7) -->
+        <div id="section-healthcard" class="healthcard-view-wrapper d-none">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <div class="feature-card-icon mb-0" style="width: 36px; height: 36px; font-size: 1.1rem; background: rgba(239, 68, 68, 0.2); color: #f87171;">
+                <i class="bi bi-heart-pulse-fill"></i>
+              </div>
+              <div>
+                <h3 class="h6 fw-bold text-white mb-0">Zoe Health Plus — User Card</h3>
+                <p class="text-secondary mb-0" style="font-size: 0.75rem;">Saved as cookie • Secure Healthcare Portal</p>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="https://webspace-org-free-flies-host.netlify.app/woopass/healthcard.html" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-vault-ghost border-secondary">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Open in New Tab
+              </a>
+              <button id="btn-reload-healthcard" class="btn btn-sm btn-vault-ghost border-secondary">
+                <i class="bi bi-arrow-clockwise me-1"></i> Refresh Card
+              </button>
+            </div>
+          </div>
+          <div class="healthcard-iframe-box">
+            <iframe id="healthcard-iframe" src="https://webspace-org-free-flies-host.netlify.app/woopass/healthcard.html" title="Zoe Health Plus User Card" allow="camera; microphone; geolocation" loading="lazy"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ====================================================================
+       MODALS & DIALOGS
+       ==================================================================== -->
+
+  <!-- Modal 1: View Password Record -->
+  <div class="modal fade" id="modal-view-password" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-key-fill text-white fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0" id="view-pw-title">Password Details</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body vault-modal-body">
+          <div class="mb-3">
+            <span class="form-label-custom">Website / App</span>
+            <div id="view-pw-site" class="text-white fw-medium">...</div>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="form-label-custom mb-0">Username / Email</span>
+              <button id="btn-copy-view-username" class="btn btn-sm btn-vault-ghost px-2 py-0" style="font-size: 0.75rem;">
+                <i class="bi bi-copy me-1"></i> Copy
+              </button>
+            </div>
+            <div id="view-pw-username" class="text-white text-mono p-2 rounded mt-1" style="background: #181818; border: 1px solid #282828;">...</div>
+          </div>
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="form-label-custom mb-0">Password</span>
+              <div class="d-flex gap-1 align-items-center">
+                <span id="view-pw-remask-badge" class="remask-badge d-none"><i class="bi bi-stopwatch"></i> Auto-remask in <span id="view-pw-remask-sec">15</span>s</span>
+                <button id="btn-toggle-reveal-pw" class="btn btn-sm btn-vault-ghost px-2 py-0" style="font-size: 0.75rem;">
+                  <i class="bi bi-eye me-1"></i> <span id="view-pw-reveal-text">Reveal</span>
+                </button>
+                <button id="btn-copy-view-pw" class="btn btn-sm btn-vault-ghost px-2 py-0" style="font-size: 0.75rem;">
+                  <i class="bi bi-copy me-1"></i> Copy
+                </button>
+              </div>
+            </div>
+            <div id="view-pw-secret-box" class="text-white text-mono p-2 rounded mt-1" style="background: #181818; border: 1px solid #282828; letter-spacing: 0.08em;">
+              ••••••••••••••••
+            </div>
+          </div>
+          <div class="mb-2">
+            <span class="form-label-custom">Notes</span>
+            <div id="view-pw-notes" class="text-secondary p-2 rounded" style="background: #181818; border: 1px solid #282828; font-size: 0.85rem; min-height: 50px;">None</div>
+          </div>
+        </div>
+        <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+          <button type="button" id="btn-view-pw-edit" class="btn btn-vault-secondary w-auto">
+            <i class="bi bi-pencil-square me-1"></i> Edit
+          </button>
+          <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add / Edit Password (Saves to Google Firebase Firestore) -->
+  <div class="modal fade" id="modal-add-password" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-key-fill text-white fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0" id="modal-pw-form-title">Create Password</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form-password-entry" novalidate>
+          <input type="hidden" id="pw-form-id">
+          <div class="modal-body vault-modal-body">
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="pw-form-title" class="form-label-custom">Account Title *</label>
+                <input type="text" id="pw-form-title" class="input-custom" placeholder="e.g. Netflix, Google, Amazon" required>
+              </div>
+              <div class="col-md-6">
+                <label for="pw-form-website" class="form-label-custom">Website URL</label>
+                <input type="text" id="pw-form-website" class="input-custom" placeholder="e.g. https://netflix.com">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="pw-form-username" class="form-label-custom">Username / Email</label>
+                <input type="text" id="pw-form-username" class="input-custom" placeholder="e.g. user@family.com">
+              </div>
+              <div class="col-md-6">
+                <label for="pw-form-password" class="form-label-custom">Password *</label>
+                <div class="position-relative">
+                  <input type="text" id="pw-form-password" class="input-custom text-mono pe-5" placeholder="Enter password" required>
+                  <button type="button" id="btn-toggle-gen-box" class="btn btn-sm btn-vault-ghost position-absolute top-50 end-0 translate-middle-y me-1 py-1" title="Generate Strong Password">
+                    <i class="bi bi-magic"></i> Generate
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Generator Tool -->
+            <div id="gen-drawer" class="generator-card d-none mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold text-white" style="font-size: 0.85rem;"><i class="bi bi-shield-check me-1"></i> Password Generator</span>
+                <span id="gen-strength-label" class="badge bg-dark border border-secondary" style="font-size: 0.75rem;">Strong</span>
+              </div>
+              
+              <div class="generator-result-box">
+                <span id="gen-output-text" class="truncate">Select length and options</span>
+                <div class="d-flex gap-1">
+                  <button type="button" id="btn-gen-refresh" class="btn btn-sm btn-vault-ghost py-0 px-2" title="Regenerate"><i class="bi bi-arrow-clockwise"></i></button>
+                  <button type="button" id="btn-gen-use" class="btn btn-sm btn-vault-primary py-0 px-2" title="Use this password">Use</button>
+                </div>
+              </div>
+
+              <div class="strength-meter-bar">
+                <div id="gen-strength-fill" class="strength-meter-fill" style="width: 100%; background: #30d158;"></div>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between gap-3 mt-2">
+                <label for="gen-length-slider" class="form-label-custom mb-0">Length: <strong id="gen-len-val" class="text-white">20</strong></label>
+                <input type="range" id="gen-length-slider" class="form-range" min="12" max="40" value="20" style="max-width: 250px;">
+              </div>
+
+              <div class="generator-options-grid mt-2">
+                <label class="form-check-custom"><input type="checkbox" id="gen-opt-upper" checked> A-Z Uppercase</label>
+                <label class="form-check-custom"><input type="checkbox" id="gen-opt-lower" checked> a-z Lowercase</label>
+                <label class="form-check-custom"><input type="checkbox" id="gen-opt-num" checked> 0-9 Numbers</label>
+                <label class="form-check-custom"><input type="checkbox" id="gen-opt-sym" checked> !@#$%^&* Symbols</label>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="pw-form-notes" class="form-label-custom">Notes (Optional)</label>
+              <textarea id="pw-form-notes" class="input-custom" rows="2" placeholder="Security questions, recovery codes, or hints..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" id="btn-save-password" class="btn btn-vault-primary w-auto">
+              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Save to Firebase
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add / Edit Important Note (Saves to Google Firebase Firestore) -->
+  <div class="modal fade" id="modal-add-note" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-journal-bookmark-fill text-white fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0" id="modal-note-title">Save Important Note</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form-note-entry" novalidate>
+          <input type="hidden" id="note-form-id">
+          <div class="modal-body vault-modal-body">
+            <div class="row g-2 mb-3">
+              <div class="col-md-8">
+                <label for="note-form-title" class="form-label-custom">Note Title *</label>
+                <input type="text" id="note-form-title" class="input-custom" placeholder="e.g. WiFi Passwords, Locker Code, Important Details" required>
+              </div>
+              <div class="col-md-4">
+                <label for="note-form-category" class="form-label-custom">Category</label>
+                <select id="note-form-category" class="input-custom">
+                  <option value="Important">Important</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Family">Family</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-2">
+              <label for="note-form-content" class="form-label-custom">Note Content *</label>
+              <textarea id="note-form-content" class="input-custom" rows="8" placeholder="Type confidential note contents here..." required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" id="btn-save-note" class="btn btn-vault-primary w-auto">
+              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Save to Firebase
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Settings & App Information (Dedicated Settings Center) -->
+  <div class="modal fade" id="modal-settings" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header border-bottom border-secondary" style="border-color: rgba(255, 255, 255, 0.1) !important;">
+          <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle p-1 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: rgba(234, 179, 8, 0.15); color: #eab308;">
+              <i class="bi bi-gear-wide-connected fs-5"></i>
+            </div>
+            <div>
+              <h3 class="h5 modal-title text-white fw-bold mb-0">Settings & Information</h3>
+              <div class="text-secondary" style="font-size: 0.75rem;">Manage your profile, password security, and view technical details</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body vault-modal-body p-3 p-md-4">
+          <!-- Settings Navigation Tabs -->
+          <ul class="nav nav-pills settings-nav-pills mb-4 nav-fill" id="settings-tab-list" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="tab-settings-profile" data-bs-toggle="pill" data-bs-target="#pane-settings-profile" type="button" role="tab" aria-selected="true">
+                <i class="bi bi-person-circle me-1 text-primary"></i> <span class="d-none d-sm-inline">Profile & Photo</span><span class="d-sm-none">Profile</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tab-settings-pwd" data-bs-toggle="pill" data-bs-target="#pane-settings-pwd" type="button" role="tab" aria-selected="false">
+                <i class="bi bi-shield-lock-fill me-1 text-warning"></i> <span class="d-none d-sm-inline">Change Password</span><span class="d-sm-none">Password</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tab-settings-tech" data-bs-toggle="pill" data-bs-target="#pane-settings-tech" type="button" role="tab" aria-selected="false">
+                <i class="bi bi-cpu-fill me-1 text-info"></i> <span class="d-none d-sm-inline">Technical Info</span><span class="d-sm-none">Tech</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tab-settings-about" data-bs-toggle="pill" data-bs-target="#pane-settings-about" type="button" role="tab" aria-selected="false">
+                <i class="bi bi-info-circle-fill me-1 text-success"></i> <span class="d-none d-sm-inline">Developer & About</span><span class="d-sm-none">About</span>
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tab Panes -->
+          <div class="tab-content" id="settings-tab-content">
+            
+            <!-- TAB 1: Profile & Photo (Change profile photo inside settings) -->
+            <div class="tab-pane fade show active" id="pane-settings-profile" role="tabpanel">
+              <div class="row align-items-center g-4">
+                <div class="col-12 col-md-5 text-center border-end-md border-secondary" style="border-color: rgba(255, 255, 255, 0.08) !important;">
+                  <div class="avatar-upload-container mb-2">
+                    <div class="avatar-upload-wrap mx-auto" id="settings-avatar-preview-wrap" style="width: 110px; height: 110px;" title="Click to select a new profile photo">
+                      <img id="settings-avatar-preview-img" src="" alt="Profile Avatar" class="d-none">
+                      <div id="settings-avatar-icon"><i class="bi bi-camera-fill text-muted fs-1"></i></div>
+                    </div>
+                    <input type="file" id="settings-avatar-file-input" accept="image/*" class="d-none">
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                      <button type="button" id="btn-settings-pick-photo" class="btn btn-sm btn-vault-ghost border-secondary">
+                        <i class="bi bi-folder2-open me-1"></i> Choose Photo
+                      </button>
+                      <button type="button" id="btn-settings-save-photo" class="btn btn-sm btn-vault-primary" disabled>
+                        <i class="bi bi-check2 me-1"></i> Save Photo
+                      </button>
+                    </div>
+                    <span class="text-secondary mt-2 d-block" style="font-size: 0.75rem;">
+                      Profile photo updates across your vault session
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-7">
+                  <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                      <i class="bi bi-person-vcard text-primary"></i> Account Profile
+                    </h6>
+                    <div class="mb-2">
+                      <label class="text-secondary small d-block">Account Holder</label>
+                      <span id="settings-user-name" class="fw-semibold text-white">Family Member</span>
+                    </div>
+                    <div class="mb-2">
+                      <label class="text-secondary small d-block">Registered Email</label>
+                      <span id="settings-user-email" class="fw-semibold text-light">user@example.com</span>
+                    </div>
+                    <div class="mb-2">
+                      <label class="text-secondary small d-block">Connected Storage Link</label>
+                      <a id="settings-user-drive-link" href="#" target="_blank" rel="noopener noreferrer" class="text-info small text-truncate d-block text-decoration-none">
+                        Not configured
+                      </a>
+                    </div>
+                    <div class="mt-3 pt-2 border-top border-secondary" style="border-color: rgba(255, 255, 255, 0.08) !important;">
+                      <button type="button" id="btn-settings-open-drive-modal" class="btn btn-sm btn-vault-ghost border-secondary">
+                        <i class="bi bi-link-45deg me-1"></i> Update Storage Link
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Change Password (Requires Home Passcode 849201 -> Current PIN -> New PIN) -->
+            <div class="tab-pane fade" id="pane-settings-pwd" role="tabpanel">
+              <div class="mb-2 text-start">
+                <div class="alert alert-dark border-secondary p-2 mb-3 d-flex align-items-center gap-2" style="background: rgba(255, 255, 255, 0.03); font-size: 0.825rem;">
+                  <i class="bi bi-shield-lock-fill text-warning fs-5 flex-shrink-0"></i>
+                  <span>
+                    To change your account password, authenticate with your <strong>Home Security Passcode (849201)</strong>, verify your current account password, and enter a new 6-digit PIN.
+                  </span>
+                </div>
+
+                <form id="form-settings-change-pin" novalidate>
+                  <!-- Step 1: Home Security Passcode (849201) -->
+                  <div class="settings-step-card mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="step-num-badge bg-warning text-dark">1</span>
+                        <label for="input-change-home-pwd" class="form-label-custom mb-0 text-white">Home Security Passcode *</label>
+                      </div>
+                      <span class="badge bg-dark border border-warning text-warning font-monospace" style="font-size: 0.7rem;">Passcode: 849201</span>
+                    </div>
+                    <div class="position-relative">
+                      <input type="password" id="input-change-home-pwd" class="input-custom" placeholder="Enter home password (849201)" maxlength="6" inputmode="numeric" required autocomplete="off">
+                      <button type="button" class="btn-input-eye" data-target="input-change-home-pwd" title="Toggle visibility">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <div class="form-text text-secondary" style="font-size: 0.775rem;">
+                      Enter the 6-digit family home master passcode (849201) to verify access authorization.
+                    </div>
+                  </div>
+
+                  <!-- Step 2: Current Account PIN -->
+                  <div class="settings-step-card mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <span class="step-num-badge bg-primary text-white">2</span>
+                      <label for="input-change-current-pin" class="form-label-custom mb-0 text-white">Current Account Password / PIN *</label>
+                    </div>
+                    <div class="position-relative">
+                      <input type="password" id="input-change-current-pin" class="input-custom" placeholder="Enter current 6-digit account PIN" maxlength="6" inputmode="numeric" required autocomplete="off">
+                      <button type="button" class="btn-input-eye" data-target="input-change-current-pin" title="Toggle visibility">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <div class="form-text text-secondary" style="font-size: 0.775rem;">
+                      Your active 6-digit login PIN used to decrypt your personal vault.
+                    </div>
+                  </div>
+
+                  <!-- Step 3: New 6-Digit PIN -->
+                  <div class="settings-step-card mb-3">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <span class="step-num-badge bg-success text-white">3</span>
+                      <label for="input-change-new-pin" class="form-label-custom mb-0 text-white">New 6-Digit Password / PIN *</label>
+                    </div>
+                    <div class="position-relative mb-2">
+                      <input type="password" id="input-change-new-pin" class="input-custom" placeholder="Enter new 6-digit PIN" maxlength="6" inputmode="numeric" required autocomplete="off">
+                      <button type="button" class="btn-input-eye" data-target="input-change-new-pin" title="Toggle visibility">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <label for="input-change-confirm-pin" class="form-label-custom text-white small">Confirm New 6-Digit PIN *</label>
+                    <div class="position-relative">
+                      <input type="password" id="input-change-confirm-pin" class="input-custom" placeholder="Re-enter new 6-digit PIN" maxlength="6" inputmode="numeric" required autocomplete="off">
+                      <button type="button" class="btn-input-eye" data-target="input-change-confirm-pin" title="Toggle visibility">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <div class="form-text text-secondary" style="font-size: 0.775rem;">
+                      Must be 6 numeric digits. Avoid simple patterns like 123456 or repeating numbers.
+                    </div>
+                  </div>
+
+                  <button type="submit" id="btn-submit-change-pin" class="btn btn-vault-primary w-100 py-2">
+                    <span id="btn-change-pin-text"><i class="bi bi-shield-check me-1"></i> Update Account Password</span>
+                    <span id="btn-change-pin-spinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- TAB 3: Technical Information -->
+            <div class="tab-pane fade" id="pane-settings-tech" role="tabpanel">
+              <div class="row g-3">
+                <!-- App Technical Info -->
+                <div class="col-12 col-md-6">
+                  <div class="p-3 rounded-3 h-100" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2 pb-2 border-bottom border-secondary" style="border-color: rgba(255, 255, 255, 0.08) !important;">
+                      <i class="bi bi-terminal text-info"></i> Application Architecture
+                    </h6>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">App Version</span>
+                      <span class="tech-info-val text-info">v3.0.0 (Production)</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Last Update</span>
+                      <span class="tech-info-val text-light">October 2, 2026</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Crypto Suite</span>
+                      <span class="tech-info-val">Web Crypto API</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Key Derivation</span>
+                      <span class="tech-info-val">PBKDF2 (100k rounds)</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Encryption</span>
+                      <span class="tech-info-val text-success">AES-256-GCM (Zero-Trust)</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Cloud Database</span>
+                      <span class="tech-info-val">Google Cloud Firestore</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Service Worker</span>
+                      <span class="tech-info-val text-info">Active (woopass-v3.0.0)</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Platform Guard</span>
+                      <span class="tech-info-val text-success">Anti-Tamper Active</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- User Technical Info -->
+                <div class="col-12 col-md-6">
+                  <div class="p-3 rounded-3 h-100" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2 pb-2 border-bottom border-secondary" style="border-color: rgba(255, 255, 255, 0.08) !important;">
+                      <i class="bi bi-person-badge text-warning"></i> User Technical Metadata
+                    </h6>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">User Identifier (UID)</span>
+                      <span class="tech-info-val font-monospace text-truncate" style="max-width: 140px;" id="tech-user-uid">-</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Registered Email</span>
+                      <span class="tech-info-val text-truncate" style="max-width: 140px;" id="tech-user-email">-</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Vault Salt</span>
+                      <span class="tech-info-val font-monospace text-truncate" style="max-width: 140px;" id="tech-user-salt">-</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Stored Passwords</span>
+                      <span class="tech-info-val text-primary" id="tech-user-passwords-count">0 items</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Important Notes</span>
+                      <span class="tech-info-val text-info" id="tech-user-notes-count">0 items</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Last Password Change</span>
+                      <span class="tech-info-val text-warning" id="tech-user-pwd-time">None recorded</span>
+                    </div>
+                    <div class="tech-info-row">
+                      <span class="tech-info-label">Session Security</span>
+                      <span class="tech-info-val text-success">RAM Zeroization Active</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 4: Developer & About -->
+            <div class="tab-pane fade" id="pane-settings-about" role="tabpanel">
+              <div class="text-center py-2">
+                <div class="mb-3">
+                  <img src="logo.png" alt="WooPass Logo" style="width: 72px; height: 72px; object-fit: contain; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);">
+                </div>
+                <h4 class="text-white fw-bold mb-1">WOO PASS</h4>
+                <div class="badge bg-primary text-white px-3 py-1 mb-3" style="font-size: 0.8rem; background: rgba(59, 130, 246, 0.25) !important; border: 1px solid rgba(59, 130, 246, 0.4);">
+                  Version 3.0.0 &bull; Last Update: October 2, 2026
+                </div>
+                <p class="text-secondary small mx-auto mb-4" style="max-width: 480px;">
+                  High-security, zero-trust private family vault with client-side Web Crypto AES-256-GCM encryption, biometric readiness, and unified credentials management.
+                </p>
+
+                <!-- Developer Details Card (Exact requested credit format) -->
+                <div class="developer-credits-card text-start mx-auto" style="max-width: 500px;">
+                  <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-secondary" style="border-color: rgba(255, 255, 255, 0.1) !important;">
+                    <i class="bi bi-code-slash text-warning fs-5"></i>
+                    <span class="text-white fw-bold">Creator & Developer Credits</span>
+                  </div>
+
+                  <div class="mb-2">
+                    <span class="text-light fw-semibold">Designed By :</span>
+                    <a href="http://ceo.tebinnovations.in" target="_blank" rel="noopener noreferrer" class="dev-credit-link ms-1">
+                      Haseef Muhammed PC <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.75rem;"></i>
+                    </a>
+                    <div class="text-muted font-monospace ps-3" style="font-size: 0.75rem;">(http://ceo.tebinnovations.in)</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <span class="text-light fw-semibold">Developed By :</span>
+                    <a href="https://tebinnovations.in" target="_blank" rel="noopener noreferrer" class="dev-credit-link ms-1">
+                      TEB Innovations <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.75rem;"></i>
+                    </a>
+                    <div class="text-muted font-monospace ps-3" style="font-size: 0.75rem;">(https://tebinnovations.in)</div>
+                  </div>
+
+                  <div class="text-center pt-2 border-top border-secondary text-secondary small" style="border-color: rgba(255, 255, 255, 0.08) !important;">
+                    &copy; 2026 TEB Innovations. All rights reserved.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer vault-modal-footer">
+          <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Change Connected Document / Cloud Link URL -->
+  <div class="modal fade" id="modal-change-drive-url" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-link-45deg text-white fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0">Connected Storage / App Link</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form-change-drive-url" novalidate>
+          <div class="modal-body vault-modal-body">
+            <label for="input-drive-folder-url" class="form-label-custom">Link URL (Google Drive, Apps Script, etc.) *</label>
+            <input type="url" id="input-drive-folder-url" class="input-custom mb-2" placeholder="https://drive.google.com/... or https://script.google.com/..." required>
+            <p class="text-secondary" style="font-size: 0.775rem;">
+              You can connect any link (Google Drive folder, Apps Script web app, OneDrive, or document portal).
+            </p>
+          </div>
+          <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" id="btn-save-drive-folder" class="btn btn-vault-primary w-auto">Save Link</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Confirm Delete Item -->
+  <div class="modal fade" id="modal-confirm-delete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-trash3-fill text-danger fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0">Delete Record</h3>
+          </div>
+        </div>
+        <div class="modal-body vault-modal-body">
+          <p class="text-white mb-1">Are you sure you want to permanently delete <strong id="delete-target-title" class="text-danger">this item</strong>?</p>
+          <p class="text-secondary mb-0" style="font-size: 0.825rem;">This will permanently remove this record from Firebase and your vault.</p>
+        </div>
+        <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="btn-confirm-delete-submit" class="btn btn-danger w-auto">Delete Permanently</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Confirm Logout -->
+  <div class="modal fade" id="modal-confirm-logout" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-box-arrow-right text-warning fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0">Logout of Woo Pass</h3>
+          </div>
+        </div>
+        <div class="modal-body vault-modal-body">
+          <p class="text-white mb-1">Are you sure you want to log out completely?</p>
+          <p class="text-secondary mb-0" style="font-size: 0.825rem;">You will return to the secure home gate.</p>
+        </div>
+        <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-vault-secondary w-auto" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="btn-confirm-logout-submit" class="btn btn-danger w-auto">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8: Account Created Success -->
+  <div class="modal fade" id="modal-account-created" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal text-center">
+        <div class="modal-body vault-modal-body p-4">
+          <div class="mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h3 class="h5 text-white fw-bold mb-2">Account Created Successfully!</h3>
+          <p class="text-secondary mb-4" style="font-size: 0.875rem;">
+            Your private vault has been created. Please log in with your email and 6-digit PIN.
+          </p>
+          <button type="button" id="btn-restart-app" class="btn-vault-primary w-100">
+            Proceed to Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9: Inactivity Expiring Modal -->
+  <div class="modal fade" id="modal-session-expiring" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vault-modal">
+        <div class="modal-header vault-modal-header">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-hourglass-split text-warning fs-5"></i>
+            <h3 class="h5 modal-title text-white fw-bold mb-0">Session Expiring</h3>
+          </div>
+        </div>
+        <div class="modal-body vault-modal-body">
+          <p class="text-white mb-2">Your session is about to lock due to inactivity.</p>
+          <p class="text-secondary mb-0" style="font-size: 0.85rem;">
+            Click <strong>Continue Session</strong> to stay logged in.
+          </p>
+        </div>
+        <div class="modal-footer vault-modal-footer d-flex justify-content-between">
+          <button type="button" id="btn-modal-lock-now" class="btn btn-vault-secondary w-auto">Lock Now</button>
+          <button type="button" id="btn-continue-session" class="btn btn-vault-primary w-auto">Continue Session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Bootstrap 5 JS Bundle (Offline Capable) -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <!-- Application Main Controller -->
+  <script type="module">
+    import { SecureKeypad } from "./js/keypad.js";
+    import { authController } from "./js/auth.js";
+    import { vaultController } from "./js/vault.js";
+    import { session } from "./js/session.js";
+    import { ui } from "./js/ui.js";
+    import { auth } from "./js/firebase-init.js";
+    import { generateSecurePassword, calculatePasswordStrength } from "./js/crypto.js";
+
+    // Application State Variables
+    let currentCategoryFilter = 'passwords';
+    let currentDeleteTarget = null;
+    let viewPasswordTimer = null;
+    let isPasswordRevealed = false;
+    let tempRegAvatar = null;
+    let tempDashAvatar = null;
+    let tempSettingsAvatar = null;
+    let pwdNoticeInterval = null;
+
+    // Healthcard URL & Cookie Management
+    const HEALTHCARD_URL = "https://webspace-org-free-flies-host.netlify.app/woopass/healthcard.html";
+
+    function setHealthcardCookie(url = HEALTHCARD_URL) {
+      const d = new Date();
+      d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+      document.cookie = `woopass_healthcard_url=${encodeURIComponent(url)};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+    }
+
+    function getHealthcardCookie() {
+      const name = "woopass_healthcard_url=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(name) === 0) {
+          const val = decodeURIComponent(c.substring(name.length));
+          if (val && val.includes('healthcard.html')) {
+            return val;
+          }
+        }
+      }
+      setHealthcardCookie(HEALTHCARD_URL);
+      return HEALTHCARD_URL;
+    }
+
+    // Helper: Image file compressor
+    function compressImageFile(file, callback) {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        ui.showToast('Please select a valid image file (JPG, PNG, WebP).', 'warning');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxDim = 240;
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          callback(dataUrl);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Helper: Update Dashboard Counters
+    function updateDashboardStats() {
+      const stats = vaultController.getStats();
+      const pwEl = document.getElementById('stat-passwords-count');
+      const ntEl = document.getElementById('stat-notes-count');
+      const pillPw = document.getElementById('pill-passwords-count');
+      const pillNt = document.getElementById('pill-notes-count');
+      if (pwEl) pwEl.textContent = stats.passwords;
+      if (ntEl) ntEl.textContent = stats.notes;
+      if (pillPw) pillPw.textContent = stats.passwords;
+      if (pillNt) pillNt.textContent = stats.notes;
+    }
+
+    // Helper: Render Vault Items Grid
+    function renderVaultItems(searchQuery = '') {
+      const grid = document.getElementById('vault-records-grid');
+      const healthSection = document.getElementById('section-healthcard');
+      const searchBox = document.getElementById('vault-search-box');
+      const addBtnLabel = document.getElementById('btn-tab-action-label');
+      if (!grid) return;
+
+      // Handle Healthcard tab
+      if (currentCategoryFilter === 'healthcard') {
+        grid.innerHTML = '';
+        if (searchBox) searchBox.classList.add('d-none');
+        if (healthSection) healthSection.classList.remove('d-none');
+        if (addBtnLabel) addBtnLabel.textContent = 'Add Password';
+        setHealthcardCookie();
+        const iframe = document.getElementById('healthcard-iframe');
+        if (iframe && !iframe.src) iframe.src = getHealthcardCookie();
+        return;
+      } else {
+        if (healthSection) healthSection.classList.add('d-none');
+        if (searchBox) searchBox.classList.remove('d-none');
+      }
+
+      // Update search placeholder & action button label
+      const searchInput = document.getElementById('vault-search-input');
+      if (currentCategoryFilter === 'notes') {
+        if (searchInput) searchInput.placeholder = 'Search important notes by title or content...';
+        if (addBtnLabel) addBtnLabel.textContent = 'Save Note';
+      } else {
+        if (searchInput) searchInput.placeholder = 'Search saved passwords by website, name, or username...';
+        if (addBtnLabel) addBtnLabel.textContent = 'Add Password';
+      }
+
+      const items = vaultController.searchItems(currentCategoryFilter, searchQuery);
+
+      if (items.length === 0) {
+        let emptyMessage = currentCategoryFilter === 'notes'
+          ? 'No important notes written yet. Save confidential notes securely.'
+          : 'No passwords saved yet. Keep all your logins private and organized.';
+        let emptyActionText = currentCategoryFilter === 'notes' ? '+ Save Note' : '+ Add Password';
+
+        grid.innerHTML = `
+          <div class="col-12">
+            <div class="vault-empty-state">
+              <i class="bi ${currentCategoryFilter === 'notes' ? 'bi-journal-bookmark' : 'bi-key'} vault-empty-icon"></i>
+              <h4 class="h6 text-white fw-bold mb-1">${searchQuery ? 'No matching records found' : 'No Items Saved Yet'}</h4>
+              <p class="text-secondary mb-3" style="font-size: 0.85rem;">${searchQuery ? `No results found matching "${ui.escapeHTML(searchQuery)}"` : emptyMessage}</p>
+              ${!searchQuery ? `<button id="btn-empty-add-item" class="btn btn-sm btn-vault-primary w-auto">${emptyActionText}</button>` : ''}
+            </div>
+          </div>
+        `;
+
+        const emptyBtn = document.getElementById('btn-empty-add-item');
+        if (emptyBtn) {
+          emptyBtn.addEventListener('click', () => {
+            if (currentCategoryFilter === 'notes') openAddNoteModal();
+            else openAddPasswordModal();
+          });
+        }
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const type = item.type || item.category || 'passwords';
+        
+        if (type === 'passwords' || type === 'password') {
+          return `
+            <div class="vault-item-card" data-id="${item.id}" data-type="passwords">
+              <div class="vault-item-header">
+                <div class="d-flex align-items-center gap-2 truncate">
+                  <div class="vault-item-icon"><i class="bi bi-key-fill"></i></div>
+                  <div class="truncate">
+                    <div class="vault-item-title truncate">${ui.escapeHTML(item.title || 'Untitled Password')}</div>
+                    <div class="vault-item-subtitle truncate">
+                      ${item.website ? `<a href="${item.website.startsWith('http') ? item.website : 'https://' + item.website}" target="_blank" rel="noopener noreferrer" class="text-secondary text-decoration-none" onclick="event.stopPropagation()">${ui.escapeHTML(item.website)} <i class="bi bi-box-arrow-up-right" style="font-size: 0.7rem;"></i></a>` : 'No website specified'}
+                    </div>
+                  </div>
+                </div>
+                <span class="badge bg-dark border border-secondary" style="font-size: 0.7rem;">Password</span>
+              </div>
+              <div class="vault-item-body">
+                <div class="vault-field-row">
+                  <span class="vault-field-label">Username:</span>
+                  <span class="vault-field-value truncate" style="max-width: 170px;">${ui.escapeHTML(item.username || '—')}</span>
+                </div>
+                <div class="vault-field-row">
+                  <span class="vault-field-label">Password:</span>
+                  <span class="vault-field-value pw-display-field text-mono" data-raw="${ui.escapeHTML(item.password || '')}">••••••••••••</span>
+                </div>
+                ${item.notes ? `
+                <div class="text-secondary mt-1 truncate" style="font-size: 0.775rem;">
+                  <i class="bi bi-sticky me-1"></i> ${ui.escapeHTML(item.notes)}
+                </div>` : ''}
+              </div>
+              <div class="vault-item-actions">
+                <button class="btn-item-action btn-card-copy-pw" data-pw="${ui.escapeHTML(item.password || '')}" title="Copy password">
+                  <i class="bi bi-copy"></i> Copy PW
+                </button>
+                <button class="btn-item-action btn-card-reveal-inline" title="Show / Hide password">
+                  <i class="bi bi-eye"></i> Show
+                </button>
+                <button class="btn-item-action btn-card-view-pw" data-id="${item.id}" title="View details">
+                  <i class="bi bi-info-circle"></i>
+                </button>
+                <button class="btn-item-action btn-card-edit-pw" data-id="${item.id}" title="Edit">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-item-action danger btn-card-del" data-id="${item.id}" data-type="passwords" data-title="${ui.escapeHTML(item.title || 'Password')}" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (type === 'notes') {
+          return `
+            <div class="vault-item-card" data-id="${item.id}" data-type="notes">
+              <div class="vault-item-header">
+                <div class="d-flex align-items-center gap-2 truncate">
+                  <div class="vault-item-icon" style="color: #facc15;"><i class="bi bi-journal-bookmark-fill"></i></div>
+                  <div class="truncate">
+                    <div class="vault-item-title truncate">${ui.escapeHTML(item.title || 'Secure Note')}</div>
+                    <div class="vault-item-subtitle truncate">${ui.escapeHTML(item.category || 'Important')}</div>
+                  </div>
+                </div>
+                <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50" style="font-size: 0.7rem;">Note</span>
+              </div>
+              <div class="vault-item-body">
+                <p class="text-secondary mb-0" style="font-size: 0.85rem; line-height: 1.4; max-height: 70px; overflow: hidden; white-space: pre-wrap;">${ui.escapeHTML(item.content || '')}</p>
+              </div>
+              <div class="vault-item-actions">
+                <button class="btn-item-action btn-card-copy-note" data-content="${ui.escapeHTML(item.content || '')}" title="Copy note text">
+                  <i class="bi bi-copy"></i> Copy
+                </button>
+                <button class="btn-item-action btn-card-edit-note" data-id="${item.id}" title="Edit Note">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <button class="btn-item-action danger btn-card-del" data-id="${item.id}" data-type="notes" data-title="${ui.escapeHTML(item.title || 'Secure Note')}" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+        return '';
+      }).join('');
+
+      // Wire Password Copy Buttons
+      grid.querySelectorAll('.btn-card-copy-pw').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          ui.copyToClipboard(btn.dataset.pw, 'Password');
+        });
+      });
+
+      // Wire Inline Reveal / Hide Button
+      grid.querySelectorAll('.btn-card-reveal-inline').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const card = btn.closest('.vault-item-card');
+          const pwField = card.querySelector('.pw-display-field');
+          if (!pwField) return;
+          const isHidden = pwField.textContent === '••••••••••••';
+          if (isHidden) {
+            pwField.textContent = pwField.dataset.raw;
+            btn.innerHTML = '<i class="bi bi-eye-slash"></i> Hide';
+          } else {
+            pwField.textContent = '••••••••••••';
+            btn.innerHTML = '<i class="bi bi-eye"></i> Show';
+          }
+        });
+      });
+
+      // Wire View Password Details
+      grid.querySelectorAll('.btn-card-view-pw').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openViewPasswordModal(btn.dataset.id);
+        });
+      });
+
+      // Wire Edit Password
+      grid.querySelectorAll('.btn-card-edit-pw').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEditPasswordModal(btn.dataset.id);
+        });
+      });
+
+      // Wire Copy Note Content
+      grid.querySelectorAll('.btn-card-copy-note').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          ui.copyToClipboard(btn.dataset.content, 'Note Content');
+        });
+      });
+
+      // Wire Edit Note
+      grid.querySelectorAll('.btn-card-edit-note').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEditNoteModal(btn.dataset.id);
+        });
+      });
+
+      // Wire Delete Buttons
+      grid.querySelectorAll('.btn-card-del').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentDeleteTarget = {
+            id: btn.dataset.id,
+            type: btn.dataset.type,
+            title: btn.dataset.title
+          };
+          document.getElementById('delete-target-title').textContent = currentDeleteTarget.title;
+          ui.showModal('modal-confirm-delete');
+        });
+      });
+    }
+
+    // Modal Opening & Editing Helpers
+    function openAddPasswordModal() {
+      document.getElementById('form-password-entry').reset();
+      document.getElementById('pw-form-id').value = '';
+      document.getElementById('modal-pw-form-title').textContent = 'Create Password';
+      document.getElementById('gen-drawer').classList.add('d-none');
+      ui.showModal('modal-add-password');
+    }
+
+    function openEditPasswordModal(id) {
+      const item = vaultController.getItemById('passwords', id);
+      if (!item) return;
+      document.getElementById('pw-form-id').value = item.id;
+      document.getElementById('pw-form-title').value = item.title || '';
+      document.getElementById('pw-form-website').value = item.website || '';
+      document.getElementById('pw-form-username').value = item.username || '';
+      document.getElementById('pw-form-password').value = item.password || '';
+      document.getElementById('pw-form-notes').value = item.notes || '';
+      document.getElementById('modal-pw-form-title').textContent = 'Edit Password';
+      document.getElementById('gen-drawer').classList.add('d-none');
+      ui.showModal('modal-add-password');
+    }
+
+    function openViewPasswordModal(id) {
+      const item = vaultController.getItemById('passwords', id);
+      if (!item) return;
+
+      document.getElementById('view-pw-title').textContent = item.title || 'Password Details';
+      document.getElementById('view-pw-site').textContent = item.website || 'No URL specified';
+      document.getElementById('view-pw-username').textContent = item.username || '—';
+      document.getElementById('view-pw-notes').textContent = item.notes || 'None';
+      
+      const secretBox = document.getElementById('view-pw-secret-box');
+      secretBox.textContent = '••••••••••••••••';
+      secretBox.dataset.rawPw = item.password || '';
+      secretBox.dataset.id = item.id;
+
+      isPasswordRevealed = false;
+      document.getElementById('view-pw-reveal-text').textContent = 'Reveal';
+      document.getElementById('view-pw-remask-badge').classList.add('d-none');
+      if (viewPasswordTimer) clearInterval(viewPasswordTimer);
+
+      document.getElementById('btn-view-pw-edit').onclick = () => {
+        ui.hideModal('modal-view-password');
+        openEditPasswordModal(item.id);
+      };
+
+      ui.showModal('modal-view-password');
+    }
+
+    function openAddNoteModal() {
+      document.getElementById('form-note-entry').reset();
+      document.getElementById('note-form-id').value = '';
+      document.getElementById('modal-note-title').textContent = 'Save Important Note';
+      ui.showModal('modal-add-note');
+    }
+
+    function openEditNoteModal(id) {
+      const item = vaultController.getItemById('notes', id);
+      if (!item) return;
+      document.getElementById('note-form-id').value = item.id;
+      document.getElementById('note-form-title').value = item.title || '';
+      document.getElementById('note-form-category').value = item.category || 'Important';
+      document.getElementById('note-form-content').value = item.content || '';
+      document.getElementById('modal-note-title').textContent = 'Edit Important Note';
+      ui.showModal('modal-add-note');
+    }
+
+    // Open Connected Link (Google Drive, Apps Script, etc.)
+    function openConnectedGoogleDrive() {
+      const profile = session.getSessionUser();
+      let linkUrl = profile?.googleDriveUrl;
+
+      if (!linkUrl) {
+        ui.showToast('Please set your connected link.', 'warning');
+        const input = document.getElementById('input-drive-folder-url');
+        if (input && linkUrl) input.value = linkUrl;
+        ui.showModal('modal-change-drive-url');
+        return;
+      }
+
+      if (!linkUrl.startsWith('http://') && !linkUrl.startsWith('https://')) {
+        linkUrl = 'https://' + linkUrl;
+      }
+
+      window.open(linkUrl, '_blank', 'noopener,noreferrer');
+      ui.showToast('Opening connected document/app link...', 'info', 2500);
+    }
+
+    // Switch Active Category Filter
+    function setCategoryFilter(category) {
+      if (category === 'documents') {
+        openConnectedGoogleDrive();
+        return;
+      }
+
+      currentCategoryFilter = category;
+
+      // Update pills
+      document.querySelectorAll('.nav-pill-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+      });
+
+      // Update feature cards active state
+      ['passwords', 'notes', 'healthcard'].forEach(c => {
+        const card = document.getElementById(`feat-card-${c}`);
+        if (card) card.classList.toggle('active', c === category);
+      });
+
+      renderVaultItems(document.getElementById('vault-search-input')?.value || '');
+    }
+
+    // Generator controller
+    function updateGeneratorState() {
+      const length = parseInt(document.getElementById('gen-length-slider').value, 10);
+      document.getElementById('gen-len-val').textContent = length;
+
+      const options = {
+        uppercase: document.getElementById('gen-opt-upper').checked,
+        lowercase: document.getElementById('gen-opt-lower').checked,
+        numbers: document.getElementById('gen-opt-num').checked,
+        symbols: document.getElementById('gen-opt-sym').checked
+      };
+
+      const generated = generateSecurePassword(length, options);
+      const strength = calculatePasswordStrength(generated);
+
+      document.getElementById('gen-output-text').textContent = generated;
+      const strengthLabel = document.getElementById('gen-strength-label');
+      const strengthFill = document.getElementById('gen-strength-fill');
+
+      if (strengthLabel) strengthLabel.textContent = strength.label;
+      if (strengthFill) {
+        strengthFill.style.width = `${strength.percent}%`;
+        strengthFill.style.backgroundColor = strength.color;
+      }
+    }
+
+    // ====================================================================
+    // DOM CONTENT LOADED INITIALIZATION & BINDINGS
+    // ====================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Initialize Healthcard Cookie
+      setHealthcardCookie();
+
+      // 1. Initialize Family Gate Keypad (Cryptographically hashed passcode, shuffled layout)
+      const gateKeypadContainer = document.getElementById('gate-keypad-container');
+      const gatePinDots = document.getElementById('gate-pin-dots');
+      
+      const gateKeypad = new SecureKeypad({
+        container: gateKeypadContainer,
+        dotsContainer: gatePinDots,
+        shuffle: true,
+        onComplete: (pin) => {
+          authController.verifyFamilyGatePin(pin);
+        }
+      });
+      authController.setGateKeypad(gateKeypad);
+
+      // 2. Initialize Login PIN Keypad (Shuffled layout)
+      const loginKeypadContainer = document.getElementById('login-keypad-container');
+      const loginPinDots = document.getElementById('login-pin-dots');
+      
+      const loginKeypad = new SecureKeypad({
+        container: loginKeypadContainer,
+        dotsContainer: loginPinDots,
+        shuffle: true,
+        onComplete: (pin) => {
+          const email = document.getElementById('login-email').value;
+          authController.loginWithPin(email, pin);
+        }
+      });
+      authController.setLoginKeypad(loginKeypad);
+
+      // Keypad Shuffle Buttons
+      document.getElementById('btn-shuffle-gate')?.addEventListener('click', () => {
+        gateKeypad.shuffleLayout();
+      });
+
+      document.getElementById('btn-shuffle-login')?.addEventListener('click', () => {
+        loginKeypad.shuffleLayout();
+      });
+
+      // Re-shuffle when views are shown
+      window.addEventListener('woopass:view-changed', (e) => {
+        if (e.detail?.viewId === 'view-gate') {
+          gateKeypad.reset();
+        } else if (e.detail?.viewId === 'view-login') {
+          loginKeypad.reset();
+        }
+      });
+
+      // 3. Register Session Lock Callback
+      session.setOnLock((reason) => {
+        ui.showToast(`Application locked: ${reason}`, 'warning', 3000);
+        const currentUser = session.getSessionUser();
+        if (currentUser?.email) {
+          const loginEmail = document.getElementById('login-email');
+          if (loginEmail) loginEmail.value = currentUser.email;
+        }
+        loginKeypad.reset();
+        ui.showView('view-login');
+      });
+
+      // 4. Vault Ready Event Listener
+      window.addEventListener('woopass:vault-ready', (e) => {
+        const profile = e.detail?.profile;
+        if (profile) {
+          const welcomeEl = document.getElementById('dash-welcome-text');
+          if (welcomeEl) welcomeEl.textContent = `Welcome back, ${profile.name || 'Family Member'}!`;
+        }
+        updateDashboardStats();
+        renderVaultItems();
+        renderPasswordChangedNotification();
+      });
+
+      // 5. Category Navigation Buttons
+      document.querySelectorAll('.nav-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setCategoryFilter(btn.dataset.category);
+        });
+      });
+
+      // Feature Card Direct Clicks
+      document.getElementById('feat-card-passwords')?.addEventListener('click', () => setCategoryFilter('passwords'));
+      document.getElementById('feat-card-notes')?.addEventListener('click', () => setCategoryFilter('notes'));
+      document.getElementById('feat-card-healthcard')?.addEventListener('click', () => setCategoryFilter('healthcard'));
+      document.getElementById('feat-card-documents')?.addEventListener('click', () => openConnectedGoogleDrive());
+
+      // 6. Search Bar Live Filtering
+      const searchInput = document.getElementById('vault-search-input');
+      const clearSearchBtn = document.getElementById('btn-clear-search');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const q = searchInput.value.trim();
+          clearSearchBtn.classList.toggle('d-none', !q);
+          renderVaultItems(q);
+        });
+      }
+
+      if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          clearSearchBtn.classList.add('d-none');
+          renderVaultItems('');
+        });
+      }
+
+      // 7. Password Generator Controls
+      document.getElementById('btn-toggle-gen-box')?.addEventListener('click', () => {
+        const drawer = document.getElementById('gen-drawer');
+        drawer.classList.toggle('d-none');
+        if (!drawer.classList.contains('d-none')) {
+          updateGeneratorState();
+        }
+      });
+
+      document.getElementById('gen-length-slider')?.addEventListener('input', updateGeneratorState);
+      ['gen-opt-upper', 'gen-opt-lower', 'gen-opt-num', 'gen-opt-sym'].forEach(id => {
+        document.getElementById(id)?.addEventListener('change', updateGeneratorState);
+      });
+      document.getElementById('btn-gen-refresh')?.addEventListener('click', updateGeneratorState);
+      document.getElementById('btn-gen-use')?.addEventListener('click', () => {
+        const genText = document.getElementById('gen-output-text').textContent;
+        document.getElementById('pw-form-password').value = genText;
+        ui.showToast('Password applied to form', 'success', 2000);
+      });
+
+      // 8. View Password Reveal
+      document.getElementById('btn-toggle-reveal-pw')?.addEventListener('click', () => {
+        const secretBox = document.getElementById('view-pw-secret-box');
+        const remaskBadge = document.getElementById('view-pw-remask-badge');
+        const remaskSec = document.getElementById('view-pw-remask-sec');
+        const revealText = document.getElementById('view-pw-reveal-text');
+
+        if (!isPasswordRevealed) {
+          isPasswordRevealed = true;
+          secretBox.textContent = secretBox.dataset.rawPw;
+          revealText.textContent = 'Hide';
+          remaskBadge.classList.remove('d-none');
+
+          let sec = 15;
+          remaskSec.textContent = sec;
+          if (viewPasswordTimer) clearInterval(viewPasswordTimer);
+
+          viewPasswordTimer = setInterval(() => {
+            sec--;
+            remaskSec.textContent = sec;
+            if (sec <= 0) {
+              clearInterval(viewPasswordTimer);
+              isPasswordRevealed = false;
+              secretBox.textContent = '••••••••••••••••';
+              revealText.textContent = 'Reveal';
+              remaskBadge.classList.add('d-none');
+            }
+          }, 1000);
+        } else {
+          isPasswordRevealed = false;
+          secretBox.textContent = '••••••••••••••••';
+          revealText.textContent = 'Reveal';
+          remaskBadge.classList.add('d-none');
+          if (viewPasswordTimer) clearInterval(viewPasswordTimer);
+        }
+      });
+
+      document.getElementById('btn-copy-view-pw')?.addEventListener('click', () => {
+        const secretBox = document.getElementById('view-pw-secret-box');
+        ui.copyToClipboard(secretBox.dataset.rawPw, 'Password');
+      });
+
+      document.getElementById('btn-copy-view-username')?.addEventListener('click', () => {
+        const userText = document.getElementById('view-pw-username').textContent;
+        ui.copyToClipboard(userText, 'Username');
+      });
+
+      // 9. Forms Submissions: Save directly to Google Firebase Firestore!
+      document.getElementById('form-password-entry').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('pw-form-id').value;
+        const title = document.getElementById('pw-form-title').value.trim();
+        const website = document.getElementById('pw-form-website').value.trim();
+        const username = document.getElementById('pw-form-username').value.trim();
+        const password = document.getElementById('pw-form-password').value;
+        const notes = document.getElementById('pw-form-notes').value.trim();
+
+        if (!title || !password) {
+          ui.showToast('Please fill in Account Title and Password.', 'warning');
+          return;
+        }
+
+        const saveBtn = document.getElementById('btn-save-password');
+        try {
+          saveBtn.disabled = true;
+          saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
+
+          const result = await vaultController.saveItem('passwords', { title, website, username, password, notes }, id || null);
+          ui.hideModal('modal-add-password');
+          if (result && result.syncedToFirebase) {
+            ui.showToast(`Password "${title}" saved & synced to Firebase!`, 'success');
+          } else {
+            const errInfo = result?.firestoreError?.message || 'Firestore rules permission pending in Firebase Console';
+            ui.showToast(`Password saved! (Firebase notice: ${errInfo})`, 'warning', 6000);
+          }
+          updateDashboardStats();
+          renderVaultItems(document.getElementById('vault-search-input')?.value || '');
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to save password.', 'danger');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill me-1"></i> Save to Firebase';
+        }
+      });
+
+      document.getElementById('form-note-entry').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('note-form-id').value;
+        const title = document.getElementById('note-form-title').value.trim();
+        const category = document.getElementById('note-form-category').value;
+        const content = document.getElementById('note-form-content').value.trim();
+
+        if (!title || !content) {
+          ui.showToast('Please fill in Note Title and Content.', 'warning');
+          return;
+        }
+
+        const saveBtn = document.getElementById('btn-save-note');
+        try {
+          saveBtn.disabled = true;
+          saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
+
+          const result = await vaultController.saveItem('notes', { title, category, content }, id || null);
+          ui.hideModal('modal-add-note');
+          if (result && result.syncedToFirebase) {
+            ui.showToast(`Note "${title}" saved & synced to Firebase!`, 'success');
+          } else {
+            const errInfo = result?.firestoreError?.message || 'Firestore rules permission pending in Firebase Console';
+            ui.showToast(`Note saved! (Firebase notice: ${errInfo})`, 'warning', 6000);
+          }
+          updateDashboardStats();
+          renderVaultItems(document.getElementById('vault-search-input')?.value || '');
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to save note.', 'danger');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="bi bi-cloud-arrow-up-fill me-1"></i> Save to Firebase';
+        }
+      });
+
+      // 10. Delete Confirmation
+      document.getElementById('btn-confirm-delete-submit').addEventListener('click', async () => {
+        if (!currentDeleteTarget) return;
+        try {
+          await vaultController.deleteItem(currentDeleteTarget.type, currentDeleteTarget.id);
+          ui.hideModal('modal-confirm-delete');
+          ui.showToast('Record deleted permanently from Firebase', 'info');
+          currentDeleteTarget = null;
+          updateDashboardStats();
+          renderVaultItems(document.getElementById('vault-search-input')?.value || '');
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to delete record.', 'danger');
+        }
+      });
+
+      // 11. Google Drive / Custom Link Update
+      document.getElementById('form-change-drive-url').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newUrl = document.getElementById('input-drive-folder-url').value.trim();
+        try {
+          await vaultController.updateGoogleDriveUrl(newUrl);
+          ui.hideModal('modal-change-drive-url');
+          ui.showToast('Connected link updated & synced!', 'success');
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to update link.', 'danger');
+        }
+      });
+
+      // 12. Quick Add Buttons
+      document.getElementById('btn-quick-add-password').addEventListener('click', openAddPasswordModal);
+      document.getElementById('btn-quick-add-note').addEventListener('click', openAddNoteModal);
+      document.getElementById('btn-tab-action-add').addEventListener('click', () => {
+        if (currentCategoryFilter === 'notes') openAddNoteModal();
+        else openAddPasswordModal();
+      });
+
+      // 13. Healthcard Refresh
+      document.getElementById('btn-reload-healthcard')?.addEventListener('click', () => {
+        const iframe = document.getElementById('healthcard-iframe');
+        if (iframe) {
+          iframe.src = getHealthcardCookie();
+          ui.showToast('Healthcard refreshed', 'info', 1500);
+        }
+      });
+
+      // 14. Photo Upload in Register
+      document.getElementById('reg-avatar-preview-wrap')?.addEventListener('click', () => {
+        document.getElementById('reg-avatar-file').click();
+      });
+
+      document.getElementById('reg-avatar-file')?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          compressImageFile(file, (dataUrl) => {
+            tempRegAvatar = dataUrl;
+            const img = document.getElementById('reg-avatar-preview-img');
+            const icon = document.getElementById('reg-avatar-icon');
+            if (img) {
+              img.src = dataUrl;
+              img.classList.remove('d-none');
+            }
+            if (icon) icon.classList.add('d-none');
+            document.getElementById('reg-avatar-btn-text').textContent = '✓ Picture Selected';
+            ui.showToast('Picture uploaded!', 'success', 1800);
+          });
+        }
+      });
+
+
+      // ====================================================================
+      // 16. Settings Center & 24h Password Change Notification System
+      // ====================================================================
+
+      // Helper: Format and render 24h Password Changed notification on Dashboard
+      function renderPasswordChangedNotification() {
+        const banner = document.getElementById('dash-pwd-notification-banner');
+        const timeEl = document.getElementById('dash-pwd-changed-time');
+        if (!banner) return;
+
+        const profile = session.getSessionUser();
+        const user = auth.currentUser;
+        const uid = profile?.uid || user?.uid;
+        if (!uid) {
+          banner.classList.add('d-none');
+          return;
+        }
+
+        const timestamp = profile?.passwordChangedAt || localStorage.getItem(`woopass_pwd_changed_${uid}`);
+        if (!timestamp) {
+          banner.classList.add('d-none');
+          return;
+        }
+
+        const changedTime = new Date(timestamp).getTime();
+        if (isNaN(changedTime)) {
+          banner.classList.add('d-none');
+          return;
+        }
+
+        const now = Date.now();
+        const diffMs = now - changedTime;
+
+        // If 24 hours have elapsed, the notification is gone!
+        if (diffMs < 0 || diffMs >= 24 * 60 * 60 * 1000) {
+          banner.classList.add('d-none');
+          if (pwdNoticeInterval) {
+            clearInterval(pwdNoticeInterval);
+            pwdNoticeInterval = null;
+          }
+          return;
+        }
+
+        // Calculate time ago
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+
+        let timeString = 'just now';
+        if (hours >= 1) {
+          timeString = hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+        } else if (minutes >= 1) {
+          timeString = minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+        }
+
+        if (timeEl) {
+          timeEl.textContent = timeString;
+        }
+        banner.classList.remove('d-none');
+
+        // Start interval ticker to update relative time every 60s
+        if (!pwdNoticeInterval) {
+          pwdNoticeInterval = setInterval(() => {
+            renderPasswordChangedNotification();
+          }, 60000);
+        }
+      }
+
+      // Dismiss button on password changed banner
+      document.getElementById('btn-dismiss-pwd-notice')?.addEventListener('click', () => {
+        document.getElementById('dash-pwd-notification-banner')?.classList.add('d-none');
+      });
+
+      // Helper: Open Settings Modal and populate data
+      function openSettingsModal(targetTabId = 'tab-settings-profile') {
+        tempSettingsAvatar = null;
+        const profile = session.getSessionUser();
+        const user = auth.currentUser;
+        const email = profile?.email || user?.email || '';
+        const name = profile?.name || email.split('@')[0] || 'Family Member';
+        const photo = profile?.photoUrl || localStorage.getItem('woopass_avatar_' + email);
+
+        // 1. Populate Profile Tab
+        const nameEl = document.getElementById('settings-user-name');
+        const emailEl = document.getElementById('settings-user-email');
+        const driveLinkEl = document.getElementById('settings-user-drive-link');
+        const previewImg = document.getElementById('settings-avatar-preview-img');
+        const previewIcon = document.getElementById('settings-avatar-icon');
+        const savePhotoBtn = document.getElementById('btn-settings-save-photo');
+
+        if (nameEl) nameEl.textContent = name;
+        if (emailEl) emailEl.textContent = email;
+        if (driveLinkEl) {
+          const driveUrl = profile?.googleDriveUrl || '#';
+          driveLinkEl.href = driveUrl;
+          driveLinkEl.textContent = profile?.googleDriveUrl || 'None configured (Click to link)';
+        }
+
+        if (photo && previewImg) {
+          previewImg.src = photo;
+          previewImg.classList.remove('d-none');
+          if (previewIcon) previewIcon.classList.add('d-none');
+        } else {
+          if (previewImg) previewImg.classList.add('d-none');
+          if (previewIcon) previewIcon.classList.remove('d-none');
+        }
+        if (savePhotoBtn) savePhotoBtn.disabled = true;
+
+        // 2. Populate Technical Metadata Tab
+        const uidEl = document.getElementById('tech-user-uid');
+        const techEmailEl = document.getElementById('tech-user-email');
+        const saltEl = document.getElementById('tech-user-salt');
+        const pwCountEl = document.getElementById('tech-user-passwords-count');
+        const ntCountEl = document.getElementById('tech-user-notes-count');
+        const pwdTimeEl = document.getElementById('tech-user-pwd-time');
+
+        const uid = user?.uid || profile?.uid || '—';
+        if (uidEl) uidEl.textContent = uid;
+        if (techEmailEl) techEmailEl.textContent = email || '—';
+        if (saltEl) {
+          const salt = profile?.vaultSalt || '';
+          saltEl.textContent = salt ? `${salt.substring(0, 14)}...${salt.substring(salt.length - 6)}` : 'Active 256-bit PBKDF2 Salt';
+        }
+
+        const stats = vaultController.getStats();
+        if (pwCountEl) pwCountEl.textContent = `${stats.passwords} items`;
+        if (ntCountEl) ntCountEl.textContent = `${stats.notes} items`;
+
+        const pwdChanged = profile?.passwordChangedAt || localStorage.getItem(`woopass_pwd_changed_${uid}`);
+        if (pwdTimeEl) {
+          pwdTimeEl.textContent = pwdChanged ? new Date(pwdChanged).toLocaleString() : 'No recent change recorded';
+        }
+
+        // 3. Switch tab if requested
+        if (targetTabId && window.bootstrap && window.bootstrap.Tab) {
+          const tabTrigger = document.getElementById(targetTabId);
+          if (tabTrigger) {
+            const tabInstance = new window.bootstrap.Tab(tabTrigger);
+            tabInstance.show();
+          }
+        }
+
+        ui.showModal('modal-settings');
+      }
+
+      // Open Settings Button & Dashboard Avatar Trigger
+      document.getElementById('btn-dash-settings')?.addEventListener('click', () => {
+        openSettingsModal('tab-settings-profile');
+      });
+
+      document.getElementById('dash-avatar-trigger')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openSettingsModal('tab-settings-profile');
+      });
+
+      document.getElementById('dash-user-badge-wrap')?.addEventListener('click', () => {
+        openSettingsModal('tab-settings-profile');
+      });
+
+      // Profile Photo Change inside Settings
+      document.getElementById('btn-settings-pick-photo')?.addEventListener('click', () => {
+        document.getElementById('settings-avatar-file-input').click();
+      });
+
+      document.getElementById('settings-avatar-preview-wrap')?.addEventListener('click', () => {
+        document.getElementById('settings-avatar-file-input').click();
+      });
+
+      document.getElementById('settings-avatar-file-input')?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          compressImageFile(file, (dataUrl) => {
+            tempSettingsAvatar = dataUrl;
+            const img = document.getElementById('settings-avatar-preview-img');
+            const icon = document.getElementById('settings-avatar-icon');
+            if (img) {
+              img.src = dataUrl;
+              img.classList.remove('d-none');
+            }
+            if (icon) icon.classList.add('d-none');
+            const saveBtn = document.getElementById('btn-settings-save-photo');
+            if (saveBtn) saveBtn.disabled = false;
+            ui.showToast('Photo selected! Click "Save Photo" to apply.', 'info', 2500);
+          });
+        }
+      });
+
+      document.getElementById('btn-settings-save-photo')?.addEventListener('click', async () => {
+        if (!tempSettingsAvatar) {
+          ui.showToast('Please select a new photo first.', 'warning');
+          return;
+        }
+        const saveBtn = document.getElementById('btn-settings-save-photo');
+        try {
+          if (saveBtn) saveBtn.disabled = true;
+          await authController.updateProfilePicture(tempSettingsAvatar);
+          ui.showToast('Profile photo updated & synced!', 'success', 2500);
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to update photo.', 'danger');
+          if (saveBtn) saveBtn.disabled = false;
+        }
+      });
+
+      // Open connected drive update modal from settings
+      document.getElementById('btn-settings-open-drive-modal')?.addEventListener('click', () => {
+        ui.hideModal('modal-settings');
+        ui.showModal('modal-change-drive-url');
+      });
+
+      // Change Password Form Submission
+      const formChangePin = document.getElementById('form-settings-change-pin');
+      formChangePin?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const homePass = (document.getElementById('input-change-home-pwd')?.value || '').trim();
+        const currentPin = (document.getElementById('input-change-current-pin')?.value || '').trim();
+        const newPin = (document.getElementById('input-change-new-pin')?.value || '').trim();
+        const confirmPin = (document.getElementById('input-change-confirm-pin')?.value || '').trim();
+
+        // 1. Enforce Home Security Passcode (849201)
+        if (homePass !== '849201') {
+          ui.showToast('Invalid Home Password! You must enter 849201 to authorize password change.', 'danger', 4000);
+          const homeInput = document.getElementById('input-change-home-pwd');
+          if (homeInput) {
+            homeInput.focus();
+            homeInput.classList.add('border-danger');
+            setTimeout(() => homeInput.classList.remove('border-danger'), 3000);
+          }
+          return;
+        }
+
+        // 2. Validate Current Account PIN
+        if (!currentPin || currentPin.length !== 6) {
+          ui.showToast('Please enter your current 6-digit account PIN.', 'warning', 3500);
+          document.getElementById('input-change-current-pin')?.focus();
+          return;
+        }
+
+        // 3. Validate New 6-Digit PIN
+        if (!newPin || newPin.length !== 6) {
+          ui.showToast('New PIN must be exactly 6 digits.', 'warning', 3500);
+          document.getElementById('input-change-new-pin')?.focus();
+          return;
+        }
+
+        if (newPin !== confirmPin) {
+          ui.showToast('New PIN and Confirm PIN do not match.', 'warning', 3500);
+          document.getElementById('input-change-confirm-pin')?.focus();
+          return;
+        }
+
+        if (currentPin === newPin) {
+          ui.showToast('New PIN must be different from current PIN.', 'warning', 3500);
+          document.getElementById('input-change-new-pin')?.focus();
+          return;
+        }
+
+        const btnText = document.getElementById('btn-change-pin-text');
+        const btnSpinner = document.getElementById('btn-change-pin-spinner');
+        const btnSubmit = document.getElementById('btn-submit-change-pin');
+
+        try {
+          if (btnSubmit) btnSubmit.disabled = true;
+          if (btnText) btnText.classList.add('d-none');
+          if (btnSpinner) btnSpinner.classList.remove('d-none');
+
+          await authController.changePasswordWithHomeGate({
+            homePassword: homePass,
+            currentPin,
+            newPin,
+            confirmPin
+          });
+
+          formChangePin.reset();
+          ui.hideModal('modal-settings');
+          ui.showToast('Account password updated successfully!', 'success', 3500);
+          renderPasswordChangedNotification();
+        } catch (err) {
+          ui.showToast(err.message || 'Failed to update password.', 'danger', 4500);
+        } finally {
+          if (btnSubmit) btnSubmit.disabled = false;
+          if (btnText) btnText.classList.remove('d-none');
+          if (btnSpinner) btnSpinner.classList.add('d-none');
+        }
+      });
+
+      // Eye toggle buttons for password fields
+      document.querySelectorAll('.btn-input-eye').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.dataset.target;
+          const input = document.getElementById(targetId);
+          if (!input) return;
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          const icon = btn.querySelector('i');
+          if (icon) {
+            icon.className = isPassword ? 'bi bi-eye-slash text-warning' : 'bi bi-eye';
+          }
+        });
+      });
+
+      // Listen for custom password changed / profile events
+      window.addEventListener('woopass:password-changed', () => {
+        renderPasswordChangedNotification();
+      });
+      window.addEventListener('woopass:profile-updated', () => {
+        renderPasswordChangedNotification();
+      });
+
+      // 17. Lock & Logout Handlers
+      document.getElementById('btn-dash-lock').addEventListener('click', () => {
+        authController.lock();
+      });
+
+      document.getElementById('btn-dash-logout').addEventListener('click', () => {
+        ui.showModal('modal-confirm-logout');
+      });
+
+      document.getElementById('btn-confirm-logout-submit').addEventListener('click', () => {
+        ui.hideModal('modal-confirm-logout');
+        authController.logout();
+      });
+
+      // 18. Session Inactivity Modal Handlers
+      document.getElementById('btn-continue-session').addEventListener('click', () => {
+        session.continueSession();
+      });
+
+      document.getElementById('btn-modal-lock-now').addEventListener('click', () => {
+        ui.hideModal('modal-session-expiring');
+        authController.lock();
+      });
+
+      // 19. Auth Choice & Navigation Buttons
+      document.getElementById('btn-choice-register').addEventListener('click', (e) => {
+        e.preventDefault();
+        ui.showView('view-register');
+      });
+
+      document.getElementById('btn-choice-login').addEventListener('click', (e) => {
+        e.preventDefault();
+        loginKeypad.reset();
+        ui.showView('view-login');
+      });
+
+      document.getElementById('btn-landing-to-gate').addEventListener('click', (e) => {
+        e.preventDefault();
+        gateKeypad.reset();
+        ui.showView('view-gate');
+      });
+
+      document.getElementById('btn-register-back').addEventListener('click', (e) => {
+        e.preventDefault();
+        ui.showView('view-landing');
+      });
+
+      document.getElementById('btn-login-back').addEventListener('click', (e) => {
+        e.preventDefault();
+        ui.showView('view-landing');
+      });
+
+      document.getElementById('btn-login-to-landing').addEventListener('click', (e) => {
+        e.preventDefault();
+        ui.showView('view-register');
+      });
+
+      // 20. Registration Form Handler (Connected Link is REQUIRED)
+      const regForm = document.getElementById('form-register');
+      const regBtnText = document.getElementById('btn-reg-text');
+      const regBtnSpinner = document.getElementById('btn-reg-spinner');
+      const regBtnSubmit = document.getElementById('btn-submit-register');
+
+      regForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const pin = document.getElementById('reg-pin').value;
+        const confirmPin = document.getElementById('reg-confirm-pin').value;
+        const phone = document.getElementById('reg-phone').value;
+        const driveUrl = document.getElementById('reg-drive-url').value;
+
+        // Validation for required link (Google Drive, Apps Script, etc.)
+        if (!driveUrl || !driveUrl.trim()) {
+          ui.showToast('Please enter a connected link (Google Drive, Apps Script, etc.).', 'warning', 4000);
+          document.getElementById('reg-drive-url').focus();
+          return;
+        }
+
+        try {
+          regBtnSubmit.disabled = true;
+          regBtnText.classList.add('d-none');
+          regBtnSpinner.classList.remove('d-none');
+
+          await authController.registerAccount({
+            name,
+            email,
+            pin,
+            confirmPin,
+            phone,
+            driveUrl,
+            photoUrl: tempRegAvatar
+          });
+
+          regForm.reset();
+          tempRegAvatar = null;
+        } catch (err) {
+          ui.showToast(err.message || 'Registration failed.', 'danger', 4000);
+        } finally {
+          regBtnSubmit.disabled = false;
+          regBtnText.classList.remove('d-none');
+          regBtnSpinner.classList.add('d-none');
+        }
+      });
+
+      // 21. Modal "Proceed to Login"
+      document.getElementById('btn-restart-app').addEventListener('click', () => {
+        ui.hideModal('modal-account-created');
+        session.clearSession();
+        gateKeypad.reset();
+        loginKeypad.reset();
+        ui.showView('view-login');
+        ui.showToast('Please login with your new account credentials.', 'info');
+      });
+
+      // 22. Initial Gate Keypad Render
+      gateKeypad.render();
+    });
+  </script>
+
+  <!-- Vault Preloader Dismissal Controller -->
+  <script>
+    (function() {
+      const preloader = document.getElementById('vault-preloader');
+      const statusText = document.getElementById('preloader-status-text');
+      if (!preloader) return;
+
+      let dismissed = false;
+      function dismissPreloader() {
+        if (dismissed) return;
+        dismissed = true;
+        if (statusText) statusText.textContent = 'Vault Ready';
+        setTimeout(() => {
+          preloader.classList.add('fade-out');
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 450);
+        }, 200);
+      }
+
+      if (document.readyState === 'complete') {
+        setTimeout(dismissPreloader, 350);
+      } else {
+        window.addEventListener('load', () => {
+          setTimeout(dismissPreloader, 350);
+        });
+      }
+
+      // Safety fallback: dismiss after max 3.5s in case of slow external network delays
+      setTimeout(dismissPreloader, 3500);
+    })();
+
+    // Register Service Worker for PWA support (Installation triggered via /app.html)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then((reg) => {
+            console.log('[PWA] Service Worker registered:', reg.scope);
+          })
+          .catch((err) => {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

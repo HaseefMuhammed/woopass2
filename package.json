@@ -1,0 +1,20 @@
+{
+  "name": "woopass-vault",
+  "version": "1.0.0",
+  "description": "Private Family Vault & Secure Password Manager PWA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "pwa",
+    "vault",
+    "passwords",
+    "security",
+    "firebase"
+  ],
+  "author": "TEB Innovations",
+  "license": "UNLICENSED",
+  "private": true
+}
